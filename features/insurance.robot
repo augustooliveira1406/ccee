@@ -9,7 +9,7 @@ Test Teardown    Close Session
 *** Test Case ***
 #robot -N "Testes Automatizados CCEE" -d .logs features\insurance.robot
 Cenario: Validar registro de proposta de seguro com sucesso
-    [Tags]   
+    [Tags]
     Dado que eu esteja na tela de "Automobile Insurance"
     Quando inicio a inserção dos dados da aba "Enter Vehicle Data" 
     E insiro os dados da aba "Enter Insurante Data"

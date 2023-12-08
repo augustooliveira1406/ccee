@@ -48,7 +48,7 @@ Quando inicio a inserção dos dados da aba "Enter Vehicle Data"
     Click Element                    ${btn_next_insurance_data}
 
 ###### Enter Insurance Data ######    
-E insiro os dados da aba "Enter Insurante Data"
+E insiro os dados da aba "Enter Insurante Data"    
     Log to Console     ==============================================================================
     Log To Console      Inserindo os dados da aba "Enter Insurante Data"
     Log to Console     ==============================================================================\n
@@ -62,14 +62,10 @@ E insiro os dados da aba "Enter Insurante Data"
     ${lastname}       FakerLibrary.LastName
     ${lastname}       Convert To Upper Case    ${lastname}
     Set Suite Variable        ${lastname}
-    ${lastname}=       Remove String            ${lastname}    ${SPACE * 1}
-      
-    ${date_of_birth}     Date Of Birth
-    Set Suite Variable    ${date_birth}       ${date_of_birth}
-
+    ${lastname}=       Remove String            ${lastname}    ${SPACE * 1}    
+    
     ${street_adrress}       FakerLibrary.Address
     ${street_adrress}       Convert To Upper Case    ${street_adrress}
-
     Set Suite Variable        ${street_adrress}
 
     ${zipcode}              FakerLibrary.Postcode
@@ -88,8 +84,9 @@ E insiro os dados da aba "Enter Insurante Data"
     Click Element                  ${txt_last_name}  
     Input Text                     ${txt_last_name}         ${lastname}
     Capture Page Screenshot        ${EXECDIR}${/}resources\\Evidencias\\${first_name}.png
+    Gerar Random Date of Birth
     Click Element                  ${txt_birth_date} 
-    Input Text                     ${txt_birth_date}        10/21/1974    #${date_birth}        
+    Input Text                     ${txt_birth_date}        ${birth_date}
     Click Element                  ${chk_gender_male}
     Click Element                  ${txt_street_address} 
     Input Text                     ${txt_street_address}    ${street_adrress}    
@@ -153,8 +150,7 @@ E seleciono uma das opções de preco na aba "Select Price Option"
     Click Element                    ${btn_view_quote}
     Aguardando Loading
     ## Valido as informações da proposta
-    ${current_handle}    Get Window Handles                               # Salva o identificador da janela atual    
-    #Execute JavaScript    window.open('${PDF_PROPOSTA}','_blank')         # Abre uma nova janela    
+    ${current_handle}    Get Window Handles                               # Salva o identificador da janela atual        
     Wait Until Keyword Succeeds    5s    1s    Switch Window    NEW       # Muda para a nova janela
     #Validando se a pagina sera impressa corretamente     
     Sleep  10
@@ -258,6 +254,15 @@ Gerar Plate Number
 Gerar Mileage
     ${random_number}=    Evaluate    str(random.randint(100, 100000))
     Set Suite Variable     ${number_miliage}       ${random_number}    
+
+Gerar Random Date of Birth
+    ${current_year}    Get Current Date    result_format=%Y
+    ${birth_year}=       Evaluate    ${current_year} - 18 - random.randint(19, 70)    
+    ${birth_month}=      Evaluate    str(random.randint(1, 12)).zfill(2)     
+    ${birth_day}=        Evaluate    str(random.randint(1, 31)).zfill(2)
+    ${birth_date}    Set Variable   ${birth_month}/${birth_day}/${birth_year}
+    Set Suite Variable   ${birth_date}
+    # Log To Console  \n.....a Data gerada foi: ${birth_date}
 
 Gerar Password
     ${random_number1}=     Generate Random String          2       [NUMBERS]    
